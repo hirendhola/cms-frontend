@@ -22,6 +22,7 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import { formData, SignUpSchema } from "@/constants/Admin/SignUp";
 import axios from "axios";
+import { useEffect } from "react";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -39,6 +40,24 @@ const SignUpForm = () => {
       address: '',
     },
   });
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/auth/admin/check-auth-status', {
+          withCredentials: true
+        });
+        if (response.status === 200) {
+          navigate('/admin/dashboard');
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    };
+
+    checkAuthStatus();
+  }, [navigate]);
+
 
   const onSubmit = async (data) => {
     try {

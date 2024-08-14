@@ -2,11 +2,13 @@ import AuthRoutes from './authRoutes/AuthRoutes';
 import { Route, Routes } from "react-router-dom";
 import NotFound from './pages/NotFound';
 import LandingPage from './pages/LandingPage';
+import Dashboard from './pages/Admin/Dashboard';
 
 function App() {
   return (
     <Routes>
       <Route path='/' element={<LandingPage />} />
+      <Route path='/admin/dashboard' element={<Dashboard />} />
       {AuthRoutes}
       <Route path='*' element={<NotFound />} />
     </Routes>

@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import { SignInSchema, formData } from "@/constants/Admin/SignIn"
 import axios from "axios";
+import { useEffect } from "react";
 
 
 const SignInForm = () => {
@@ -37,28 +38,43 @@ const SignInForm = () => {
     },
   });
 
-  // function onSubmit(data) {
-  //   console.log(data)
-  //   console.log("submitted")
-  //   toast({
-  //     title: "Signup Successful"
-  //   })
-  // }
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/auth/admin/check-auth-status', {
+          withCredentials: true
+        });
+        if (response.status === 200) {
+          navigate('/admin/dashboard');
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    };
+
+    checkAuthStatus();
+  }, [navigate]);
+
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/admin/signin', data);
+      const response = await axios.post('http://localhost:3000/api/auth/admin/signin', data, {
+        withCredentials: true
+      });
       console.log(response.data);
+
       toast({
         title: "SignIn Successful",
-        description: response.data.message, // Adjust according to your API response
+        description: response.data.message,
       });
+
+      // Navigate to the dashboard or other relevant page
       navigate('/admin/dashboard');
     } catch (error) {
       console.error(error);
       toast({
         title: "Error",
-        description: error.response?.data?.message || "An error occurred", // Adjust according to your API response
+        description: error.response?.data?.message || "An error occurred",
         variant: "destructive",
       });
     }
@@ -67,7 +83,7 @@ const SignInForm = () => {
 
   return (
     <div className="bg-neutral-300 min-h-screen sm:h-fit text-neutral-950 flex justify-center items-center p-4">
-      <Card className="w-[30%] sm:max-w-screen-sm   bg-neutral-200 shadow-sm">
+      <Card className="w-[80%] sm:max-w-screen-sm bg-neutral-200 shadow-sm">
         <CardHeader>
           <CardTitle>SignIN</CardTitle>
           <CardDescription>Admin (Principal)</CardDescription>
