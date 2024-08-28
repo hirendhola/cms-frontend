@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
+
 let accessToken = null;
 let refreshToken = null;
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: import.meta.env.VITE_API_KEY,
   withCredentials: true,
 });
 
@@ -18,7 +19,7 @@ const isTokenExpired = (token) => {
 axiosInstance.interceptors.request.use(
   (config) => {
     const urlParts = config.url.split('/');
-    const userType = urlParts[1]; 
+    const userType = urlParts[1];
 
     if (userType === 'auth') {
       const authUserType = urlParts[2];

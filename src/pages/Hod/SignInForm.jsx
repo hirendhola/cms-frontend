@@ -33,7 +33,7 @@ const SignInForm = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: error,
+        description: error.message,
         variant: "destructive",
       });
     }

@@ -24,7 +24,7 @@ export const useAuth = () => {
       navigate('/auth/hod/signin');
       return false;
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     fetchAuthStatus();

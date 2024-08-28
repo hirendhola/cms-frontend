@@ -3,7 +3,7 @@ import { useAuth } from '@/hooks/Hod/useAuth';
 import Loading from '@/components/Loading';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Book, GraduationCap, Building, User, Users, UserCheck, Key } from 'lucide-react';
+import { PlusCircle, Book, Album, GraduationCap, Building, User, Users, UserCheck, Key } from 'lucide-react';
 
 const Dashboard = () => {
   const { loading, user } = useAuth();
@@ -35,6 +35,9 @@ const Dashboard = () => {
   const totalTeachers = user.department?.programs.reduce((total, program) =>
     total + program.courses.reduce((courseTotal, course) => courseTotal + (course.teachers?.length || 0), 0), 0) || 0;
 
+  const totalSubject = user.department?.programs.reduce((total, program) =>
+    total + program.courses.reduce((courseTotal, course) => courseTotal + (course.subjects?.length || 0), 0), 0) || 0;
+
   const renderInsightCard = (title, value, icon) => (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -51,7 +54,8 @@ const Dashboard = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {renderInsightCard("Total Departments", user.department ? 1 : 0, <Building className="h-4 w-4 text-muted-foreground" />)}
       {renderInsightCard("Total Programs", user.department?.programs.length || 0, <GraduationCap className="h-4 w-4 text-muted-foreground" />)}
-      {renderInsightCard("Total Courses", user.department?.programs.reduce((total, program) => total + program.courses.length, 0) || 0, <Book className="h-4 w-4 text-muted-foreground" />)}
+      {renderInsightCard("Total Courses", user.department?.programs.reduce((total, program) => total + program.courses.length, 0) || 0, <Album className="h-4 w-4 text-muted-foreground" />)}
+      {renderInsightCard("Total Subjects", totalSubject, <Book className="h-4 w-4 text-muted-foreground" />)}
       {renderInsightCard("Total Students", totalStudents, <Users className="h-4 w-4 text-muted-foreground" />)}
       {renderInsightCard("Total Teachers", totalTeachers, <UserCheck className="h-4 w-4 text-muted-foreground" />)}
     </div>
@@ -121,11 +125,11 @@ const Dashboard = () => {
     { id: 'overview', label: 'Overview', icon: User },
     { id: 'departments', label: 'Departments', icon: Building },
     { id: 'programs', label: 'Programs', icon: GraduationCap },
-    { id: 'courses', label: 'Courses', icon: Book },
+    { id: 'courses', label: 'Courses', icon: Album },
   ];
 
   return (
-    <div className="p-4 max-w-full mx-auto">
+    <div className="p-4 max-w-screen-lg mx-auto">
       <div className="flex flex-col space-y-4 mb-6">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
