@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const SignInSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "min 8" }),
+  password: z.string({ message: "required!!" }),
 });
 
 export const formData = [

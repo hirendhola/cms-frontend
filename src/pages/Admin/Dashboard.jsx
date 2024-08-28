@@ -1,35 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from '@/hooks/Admin/useAuth';
+import CreateDepartment from '@/components/Admin/CreateDepartment';
+import Loading from '@/components/Loading';
+import { useEffect } from 'react';
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const [college, setCollege] = useState(null);
-  const navigate = useNavigate();
+  const { loading, user, college, refreshData } = useAuth();
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const getInfo = await axios.get('http://localhost:3000/api/admin/me', {
-          withCredentials: true
-        })
-        console.log("admin: ", getInfo.data.admin)
-        console.log("College: ", getInfo.data.college)
-        setUser(getInfo.data.admin);
-        setCollege(getInfo.data.college)
-        setLoading(false);
+    if (user) {
+      console.log("User data:", user);
+    }
+    if (college) {
+      console.log("College data:", college);
+    }
+  }, [user, college]);
 
-      } catch (error) {
-        console.error(error);
-        navigate('/auth/admin/signin');  // Redirect to login page if not authenticated
-      }
-    };
-
-    checkAuthStatus();
-  }, [navigate]);
-
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return <Loading loading={loading} />;
+  }
 
   return (
     <div>
@@ -43,7 +31,7 @@ const Dashboard = () => {
         <div>
           <p>Name: {user.name}</p>
           <p>Email: {user.email}</p>
-          <p>mobileNumber: {user.mobileNumber}</p>
+          <p>Mobile Number: {user.mobileNumber}</p>
         </div>
       )}
       <br />
@@ -53,16 +41,23 @@ const Dashboard = () => {
       <br />
       {college && (
         <div>
-          <p>collegeName: {college.collegeName}</p>
-          <p>collegeCode: {college.collegeCode}</p>
-          <p>uniName: {college.uniName}</p>
-          {college.departments && (
-            college.departments.forEach(department => {
-              <p>{department}</p>
-            })
+          <p>College Name: {college.collegeName}</p>
+          <p>College Code: {college.collegeCode || ' '}</p>
+          <p>University Name: {college.uniName}</p>
+          <br />
+          <p>Departments: </p>
+          {college.departments && college.departments.length > 0 && (
+            college.departments.map((department, index) => (
+              <div key={index} className='border-slate-300 border-[1px] w-fit p-1 rounded-sm'>
+                <p>name: {department.name}</p>
+                <p>code: {department.code}</p>
+              </div>
+            ))
           )}
         </div>
       )}
+
+      <CreateDepartment college={college} onDepartmentCreated={refreshData} />
     </div>
   );
 };

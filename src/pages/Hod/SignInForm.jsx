@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
-import { SignInSchema, formData } from "@/constants/Admin/Auth/SignIn";
+import { SignInSchema, formData } from "@/constants/Hod/Auth/SignIn";
 import { useAuth } from "@/hooks/Admin/useAuth";
 import { useEffect } from "react";
 
@@ -33,7 +33,7 @@ const SignInForm = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "An error occurred",
+        description: error,
         variant: "destructive",
       });
     }
@@ -49,7 +49,7 @@ const SignInForm = () => {
       <Card className="w-[80%] sm:max-w-screen-sm bg-neutral-200 shadow-sm">
         <CardHeader>
           <CardTitle>SignIn</CardTitle>
-          <CardDescription>Admin (Principal)</CardDescription>
+          <CardDescription>Head Of Department</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -75,7 +75,7 @@ const SignInForm = () => {
               <div className="w-full flex flex-col sm:flex-row justify-between mt-3">
                 <button type="button"
                   className="text-green-950 rounded-md p-1 hover:text-lime-900 mb-2 sm:mb-0 text-sm"
-                  onClick={() => navigate('/auth/admin/signup')}
+                  onClick={() => navigate('/auth/hod/signup')}
                 >
                   Create account
                 </button>

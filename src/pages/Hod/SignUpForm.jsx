@@ -1,35 +1,30 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import { Toaster } from "@/components/ui/toaster";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
-import { SignInSchema, formData } from "@/constants/Admin/Auth/SignIn";
-import { useAuth } from "@/hooks/Admin/useAuth";
-import { useEffect } from "react";
+import { formData, SignUpSchema } from "@/constants/Hod/Auth/SignUp";
 
-const SignInForm = () => {
-  const { signIn, checkAuthStatus } = useAuth();
+const SignUpForm = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const isAuthenticated = await checkAuthStatus();
-      if (isAuthenticated) {
-        navigate('/admin/dashboard');
-      }
-    };
-    checkAuth();
-  }, [checkAuthStatus, navigate]);
+  const form = useForm({
+    resolver: zodResolver(SignUpSchema),
+    defaultValues: {
+      name: '', email: '', password: '', mobileNumber: '',
+      accessCode: ''
+    },
+  });
 
   const onSubmit = async (data) => {
     try {
-      await signIn(data);
-      toast({ title: "SignIn Successful" });
-      navigate('/admin/dashboard');
+      const response = await axios.post('http://localhost:3000/api/auth/hod/signup', data);
+      toast({ title: "Account Created", description: response.data.message });
+      navigate('/hod/dashboard');
     } catch (error) {
       toast({
         title: "Error",
@@ -39,22 +34,17 @@ const SignInForm = () => {
     }
   };
 
-  const form = useForm({
-    resolver: zodResolver(SignInSchema),
-    defaultValues: { email: '', password: '' },
-  });
-
   return (
     <div className="bg-neutral-300 min-h-screen sm:h-fit text-neutral-950 flex justify-center items-center p-4">
-      <Card className="w-[80%] sm:max-w-screen-sm bg-neutral-200 shadow-sm">
+      <Card className="w-full sm:max-w-screen-lg bg-neutral-200 shadow-sm">
         <CardHeader>
-          <CardTitle>SignIn</CardTitle>
-          <CardDescription>Admin (Principal)</CardDescription>
+          <CardTitle>SignUp</CardTitle>
+          <CardDescription>Head Of Department</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {formData.map(({ label, name, placeholder, type }) => (
                   <FormField
                     key={name}
@@ -73,13 +63,10 @@ const SignInForm = () => {
                 ))}
               </div>
               <div className="w-full flex flex-col sm:flex-row justify-between mt-3">
-                <button type="button"
-                  className="text-green-950 rounded-md p-1 hover:text-lime-900 mb-2 sm:mb-0 text-sm"
-                  onClick={() => navigate('/auth/admin/signup')}
-                >
-                  Create account
-                </button>
-                <Button type="submit" className="w-full sm:w-auto">SignIn</Button>
+                <Link to='/auth/hod/signin' className="text-green-950 rounded-md p-1 hover:text-lime-900 mb-2 sm:mb-0 text-sm">
+                  Already have an account?
+                </Link>
+                <Button type="submit" className="w-full sm:w-auto">Sign Up</Button>
               </div>
             </form>
           </Form>
@@ -90,4 +77,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;

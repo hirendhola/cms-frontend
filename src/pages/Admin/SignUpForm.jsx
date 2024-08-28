@@ -1,78 +1,47 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useNavigate, Link } from "react-router-dom";
-import { formData, SignUpSchema } from "@/constants/Admin/SignUp";
-import axios from "axios";
-import { useEffect } from "react";
+import { formData, SignUpSchema } from "@/constants/Admin/Auth/SignUp";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-
   const form = useForm({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      mobileNumber: '',
-      uniName: '',
-      collegeName: '',
-      collegeCode: '',
-      address: '',
+      name: '', email: '', password: '', mobileNumber: '',
+      uniName: '', collegeName: '', collegeCode: '', address: '',
     },
   });
 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/auth/admin/check-auth-status', {
-          withCredentials: true
-        });
-        if (response.status === 200) {
-          navigate('/admin/dashboard');
-        }
+        const response = await axios.get('http://localhost:3000/api/auth/admin/check-auth-status', { withCredentials: true });
+        if (response.status === 200) navigate('/admin/dashboard');
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     };
-
     checkAuthStatus();
   }, [navigate]);
-
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post('http://localhost:3000/api/auth/admin/signup', data);
-      console.log(response.data);
-      toast({
-        title: "College Created",
-        description: response.data.message, // Adjust according to your API response
-      });
+      toast({ title: "College Created", description: response.data.message });
       navigate('/admin/dashboard');
     } catch (error) {
-      console.error(error);
       toast({
         title: "Error",
-        description: error.response?.data?.message || "An error occurred", // Adjust according to your API response
+        description: error.response?.data?.message || "An error occurred",
         variant: "destructive",
       });
     }
@@ -96,7 +65,7 @@ const SignUpForm = () => {
                     name={name}
                     render={({ field }) => (
                       <FormItem className="space-y-1.5">
-                        <FormLabel className="text-sm">{label + "*"}</FormLabel>
+                        <FormLabel className="text-sm">{label}*</FormLabel>
                         <FormControl>
                           <Input placeholder={placeholder} type={type} {...field} className="border-neutral-950" />
                         </FormControl>
