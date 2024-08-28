@@ -1,14 +1,14 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '@/hooks/Admin/useAuth';
+// import { Navigate, Outlet } from 'react-router-dom';
+// import { useAuth } from '@/hooks/Admin/useAuth';
+// import Loading from './Loading';
+// const ProtectedRoute = () => {
+//   const { user, loading } = useAuth();
 
-const ProtectedRoute = () => {
-  const { user, loading } = useAuth();
+//   if (loading) {
+//     return <Loading />
+//   }
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
+//   return user ? <Outlet /> : <Navigate to="/" />
+// };
 
-  return user ? <Outlet /> : <Navigate to="/auth/admin/signin" />
-};
-
-export default ProtectedRoute;
+// export default ProtectedRoute;

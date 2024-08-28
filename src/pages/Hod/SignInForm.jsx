@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { SignInSchema, formData } from "@/constants/Hod/Auth/SignIn";
-import { useAuth } from "@/hooks/Admin/useAuth";
+import { useAuth } from "@/hooks/Hod/useAuth";
 import { useEffect } from "react";
 
 const SignInForm = () => {
@@ -19,7 +19,7 @@ const SignInForm = () => {
     const checkAuth = async () => {
       const isAuthenticated = await checkAuthStatus();
       if (isAuthenticated) {
-        navigate('/admin/dashboard');
+        navigate('/hod/dashboard');
       }
     };
     checkAuth();
@@ -29,7 +29,7 @@ const SignInForm = () => {
     try {
       await signIn(data);
       toast({ title: "SignIn Successful" });
-      navigate('/admin/dashboard');
+      navigate('/hod/dashboard');
     } catch (error) {
       toast({
         title: "Error",

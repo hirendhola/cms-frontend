@@ -23,9 +23,10 @@ export const useAuth = () => {
     } catch (error) {
       console.error('Auth check failed:', error);
       setAuthState(prevState => ({ ...prevState, loading: false }));
+      navigate('/auth/admin/signin')
       return false;
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     fetchAuthStatus();
