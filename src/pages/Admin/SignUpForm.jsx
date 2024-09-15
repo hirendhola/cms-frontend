@@ -24,7 +24,7 @@ const SignUpForm = () => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/auth/admin/check-auth-status', { withCredentials: true });
+        const response = await axios.get(`${import.meta.env.VITE_API_KEY}/auth/admin/check-auth-status`, { withCredentials: true });
         if (response.status === 200) navigate('/admin/dashboard');
       } catch (error) {
         console.log(error.message);

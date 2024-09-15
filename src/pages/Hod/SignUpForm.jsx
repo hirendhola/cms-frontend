@@ -22,7 +22,7 @@ const SignUpForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/hod/signup', data);
+      const response = await axios.post(`${import.meta.env.VITE_API_KEY}/auth/hod/signup`, data);
       toast({ title: "Account Created", description: response.data.message });
       navigate('/hod/dashboard');
     } catch (error) {

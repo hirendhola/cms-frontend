@@ -41,9 +41,9 @@ export const useAuth = () => {
   };
 
   const signOut = async () => {
-    await axiosInstance.post('/auth/admin/signout');
+    await axiosInstance.post('/auth/admin/logout');
     setAuthState({ user: null, college: null, loading: false });
-    localStorage.removeItem('AdminaccessToken');
+    localStorage.removeItem('adminAccessToken');
     delete axiosInstance.defaults.headers.common['Authorization'];
     navigate('/auth/admin/signin');
   };

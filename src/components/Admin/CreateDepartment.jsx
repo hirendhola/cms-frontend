@@ -57,8 +57,8 @@ const CreateDepartment = ({ college, onDepartmentCreated }) => {
 
   return (
     <>
-      <div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <divw>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} >
           <DialogTrigger asChild>
             <Button variant="outline">Create Department</Button>
           </DialogTrigger>
@@ -129,7 +129,7 @@ const CreateDepartment = ({ college, onDepartmentCreated }) => {
           </DialogContent>
         </Dialog>
         <Toaster />
-      </div>
+      </divw>
     </>
   )
 };
