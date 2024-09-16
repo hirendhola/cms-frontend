@@ -5,7 +5,6 @@ import LandingPage from './pages/LandingPage';
 import AdminDashboard from './pages/Admin/Dashboard';
 import HodDashboard from './pages/Hod/Dashboard';
 // import ProtectedRoute from '@/components/ProtectedRoute.jsx';
-import { Analytics } from "@vercel/analytics/react"
 function App() {
 
 
@@ -19,7 +18,6 @@ function App() {
       {AuthRoutes}
       <Route path='*' element={<NotFound />} />
 
-      <Analytics />
     </Routes>
   );
 }
