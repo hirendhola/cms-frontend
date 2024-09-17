@@ -94,34 +94,6 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader>
-            <h3 className="text-lg font-semibold text-white">System Health</h3>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium text-gray-300">Server Load</span>
-                <span className="text-sm font-medium text-gray-300">65%</span>
-              </div>
-              <Progress value={65} className="h-2" />
-            </div>
-            <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium text-gray-300">Database Usage</span>
-                <span className="text-sm font-medium text-gray-300">42%</span>
-              </div>
-              <Progress value={42} className="h-2" />
-            </div>
-            <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium text-gray-300">Storage Capacity</span>
-                <span className="text-sm font-medium text-gray-300">78%</span>
-              </div>
-              <Progress value={78} className="h-2" />
-            </div>
-          </CardContent>
-        </Card>
       </div>
     )
   }
