@@ -89,7 +89,8 @@ const CreateCourse = ({ Hod, onProgramCreated }) => {
                     </FormMessage>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="code" className="text-right text-white">
+                    <Label htmlFor="code" className="text-right text-whitegit status
+                    ">
                       Code
                     </Label>
                     <Input
