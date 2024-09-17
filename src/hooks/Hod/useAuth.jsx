@@ -39,7 +39,7 @@ export const useAuth = () => {
   };
 
   const signOut = async () => {
-    await axiosInstance.post('/auth/hod/signout');
+    await axiosInstance.post('/auth/hod/logout');
     setAuthState({ user: null, loading: false });
     localStorage.removeItem('hodAccessToken');
     delete axiosInstance.defaults.headers.common['Authorization'];

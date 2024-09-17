@@ -8,7 +8,7 @@ import CreateDepartment from '@/components/Admin/CreateDepartment'
 import Loading from '@/components/Loading'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Album, GraduationCap, Building, User, UserRoundPen, BarChart as BarChartIcon, LogOut, Menu, Users, BookOpen, Settings } from 'lucide-react'
+import { Album, GraduationCap, Building, User, UserRoundPen, LogOut, Menu, Users, BookOpen, Settings } from 'lucide-react'
 import { toast } from '@/components/ui/use-toast'
 import { Progress } from "@/components/ui/progress"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
@@ -17,6 +17,8 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { SheetContent, SheetTrigger, Sheet } from '@/components/ui/sheet'
 import { Toaster } from '@/components/ui/toaster'
+import renderInsightCard from '@/components/InsightCard'
+
 
 export default function Dashboard() {
   const { loading, user, college, refreshData, signOut } = useAuth()
@@ -48,42 +50,24 @@ export default function Dashboard() {
     return <Loading loading={loading} />
   }
 
-  const renderInsightCard = (title, value, icon) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card className=" min-h-fit h-[22vh] hover:shadow-inner-2xl hover:shadow-gray-500 transition-shadow duration-300  bg-gray-900">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <h3 className="text-sm font-medium">{title}</h3>
-          {icon}
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{value}</div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  )
-
   const renderOverview = () => {
     const departmentData = college?.departments?.map(dept => ({
       name: dept.name,
-      students: Math.floor(Math.random() * 100) + 50, // Mock data
-      courses: Math.floor(Math.random() * 20) + 5, // Mock data
+      students: Math.floor(Math.random() * 100) + 50,
+      courses: Math.floor(Math.random() * 20) + 5,
     })) || []
 
     return (
       <div className="space-y-6 mt-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {renderInsightCard("Total Departments", college?.departments?.length || 0, <Building className="h-4 w-4 text-muted-foreground" />)}
-          {renderInsightCard("Total Students", "1,234", <Users className="h-4 w-4 text-muted-foreground" />)}
-          {renderInsightCard("Total Courses", "42", <BookOpen className="h-4 w-4 text-muted-foreground" />)}
-          {renderInsightCard("University Name", college?.uniName || 'N/A', <Album className="h-4 w-4 text-muted-foreground" />)}
+          {renderInsightCard("Total Departments", college?.departments?.length || 0, <Building className="h-4 w-4 text-blue-400" />)}
+          {renderInsightCard("Total Students", "1,234", <Users className="h-4 w-4 text-green-400" />)}
+          {renderInsightCard("Total Courses", "42", <BookOpen className="h-4 w-4 text-yellow-400" />)}
+          {renderInsightCard("University Name", college?.uniName || 'N/A', <Album className="h-4 w-4 text-purple-400" />)}
         </div>
-        <Card className="bg-gray-900">
+        <Card className="bg-gray-800 border-gray-700">
           <CardHeader>
-            <h3 className="text-lg font-semibold">Department Statistics</h3>
+            <h3 className="text-lg font-semibold text-white">Department Statistics</h3>
           </CardHeader>
           <CardContent>
             <div className="h-[400px] w-full">
@@ -97,11 +81,11 @@ export default function Dashboard() {
                     bottom: 5,
                   }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis dataKey="name" stroke="#9CA3AF" />
                   <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
                   <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
-                  <Tooltip />
+                  <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: 'none' }} />
                   <Legend />
                   <Bar yAxisId="left" dataKey="students" fill="#8884d8" name="Students" />
                   <Bar yAxisId="right" dataKey="courses" fill="#82ca9d" name="Courses" />
@@ -110,29 +94,29 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-gray-900">
+        <Card className="bg-gray-800 border-gray-700">
           <CardHeader>
-            <h3 className="text-lg font-semibold">System Health</h3>
+            <h3 className="text-lg font-semibold text-white">System Health</h3>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium">Server Load</span>
-                <span className="text-sm font-medium">65%</span>
+                <span className="text-sm font-medium text-gray-300">Server Load</span>
+                <span className="text-sm font-medium text-gray-300">65%</span>
               </div>
               <Progress value={65} className="h-2" />
             </div>
             <div>
               <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium">Database Usage</span>
-                <span className="text-sm font-medium">42%</span>
+                <span className="text-sm font-medium text-gray-300">Database Usage</span>
+                <span className="text-sm font-medium text-gray-300">42%</span>
               </div>
               <Progress value={42} className="h-2" />
             </div>
             <div>
               <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium">Storage Capacity</span>
-                <span className="text-sm font-medium">78%</span>
+                <span className="text-sm font-medium text-gray-300">Storage Capacity</span>
+                <span className="text-sm font-medium text-gray-300">78%</span>
               </div>
               <Progress value={78} className="h-2" />
             </div>
@@ -148,11 +132,11 @@ export default function Dashboard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className="bg-gray-900">
+      <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
-          <h3 className="text-lg font-semibold">Personal Information</h3>
+          <h3 className="text-lg font-semibold text-white">Personal Information</h3>
         </CardHeader>
-        <CardContent>
+        <CardContent className="text-gray-300">
           <p><strong>Name:</strong> {user?.name}</p>
           <p><strong>Email:</strong> {user?.email}</p>
           <p><strong>Mobile Number:</strong> {user?.mobileNumber}</p>
@@ -167,11 +151,11 @@ export default function Dashboard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className="bg-gray-900">
+      <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
-          <h3 className="text-lg font-semibold">College Information</h3>
+          <h3 className="text-lg font-semibold text-white">College Information</h3>
         </CardHeader>
-        <CardContent>
+        <CardContent className="text-gray-300">
           <p className='font-medium'><strong>College Name:</strong> {college?.collegeName}</p>
           <p className='font-medium'><strong>College Code:</strong> {college?.collegeCode || 'N/A'}</p>
           <p className='font-medium'><strong>University Name:</strong> {college?.uniName}</p>
@@ -183,7 +167,7 @@ export default function Dashboard() {
   const renderDepartments = () => (
     <div className="space-y-4 font-medium">
       <div className='w-full flex items-center justify-between flex-col sm:flex-row gap-5'>
-        <h3 className="text-lg font-semibold self-center">Departments</h3>
+        <h3 className="text-lg font-semibold self-center text-white">Departments</h3>
         <div className="">
           <CreateDepartment college={college} onDepartmentCreated={refreshData} />
         </div>
@@ -198,8 +182,8 @@ export default function Dashboard() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <Card className="bg-gray-900">
-                <CardContent className="p-4">
+              <Card className="bg-gray-800 border-gray-700">
+                <CardContent className="p-4 text-gray-300">
                   <p><strong>Name:</strong> {department.name}</p>
                   <p><strong>Code:</strong> {department.code}</p>
                 </CardContent>
@@ -207,7 +191,7 @@ export default function Dashboard() {
             </motion.div>
           ))
         ) : (
-          <p>No departments found.</p>
+          <p className="text-gray-300">No departments found.</p>
         )}
       </AnimatePresence>
     </div>
@@ -221,7 +205,7 @@ export default function Dashboard() {
   ]
 
   const Sidebar = ({ onTabClick }) => (
-    <div className="fixed left-0 top-0 w-64 h-screen p-4 bg-gray-800 text-white  overflow-y-auto">
+    <div className="fixed left-0 top-0 w-64 h-screen p-4 bg-gray-900 text-white overflow-y-auto">
       <div className="flex flex-col h-full">
         <div className="flex items-center space-x-4 mb-6">
           <Avatar>
@@ -240,7 +224,7 @@ export default function Dashboard() {
               <Button
                 key={tab.id}
                 variant={activeTab === tab.id ? "secondary" : "ghost"}
-                className="w-[86%] justify-start"
+                className="w-full justify-start"
                 onClick={() => onTabClick(tab.id)}
               >
                 <Icon className="mr-2 h-4 w-4" />
@@ -264,8 +248,8 @@ export default function Dashboard() {
   );
 
   const MainContent = ({ activeTab }) => (
-    <div className="p-6 min-w-screen mx-auto text-[#F1F1F1]">
-      <h1 className="mb-6  lg:text-3xl text-2xl  font-semibold ">Dashboard</h1>
+    <div className="p-6 min-w-screen mx-auto text-white">
+      <h1 className="mb-6 lg:text-3xl text-2xl font-semibold">Dashboard</h1>
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
@@ -284,18 +268,17 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="dark bg-gray-800 min-h-screen">
-      {/* Mobile Menu */}
+    <div className="bg-gray-900 min-h-screen">
       <div className="lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <div className=''>
-              <Button variant="outline" size="icon" className="absolute top-3 right-4 bg-gray-300">
+              <Button variant="outline" size="icon" className="absolute top-3 right-4 bg-gray-700 text-white">
                 <Menu className="h-4 w-4" />
               </Button>
             </div>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[250px] sm:w-[300px] p-0">
+          <SheetContent side="left" className="w-[250px] sm:w-[300px] p-0 bg-gray-900">
             <Sidebar onTabClick={(tabId) => {
               setActiveTab(tabId);
             }} />
@@ -303,7 +286,6 @@ export default function Dashboard() {
         </Sheet>
       </div>
 
-      {/* Desktop Layout */}
       <div className="hidden lg:block">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={17} minSize={15}>
@@ -316,7 +298,6 @@ export default function Dashboard() {
         </ResizablePanelGroup>
       </div>
 
-      {/* Mobile Layout */}
       <div className="lg:hidden">
         <MainContent activeTab={activeTab} />
       </div>
