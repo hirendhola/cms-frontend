@@ -104,11 +104,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { toast } from "@/components/ui/use-toast"
 import { SignInSchema, formData } from "@/constants/Admin/Auth/SignIn"
 import { useAuth } from "@/hooks/Admin/useAuth"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 const SignInForm = () => {
   const { signIn, checkAuthStatus } = useAuth()
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -121,16 +122,19 @@ const SignInForm = () => {
   }, [checkAuthStatus, navigate])
 
   const onSubmit = async (data) => {
+    setLoading(true)
     try {
       await signIn(data)
       toast({ title: "SignIn Successful" })
       navigate('/admin/dashboard')
+      setLoading(false)
     } catch (error) {
       toast({
         title: "Error",
         description: error.response?.data?.message || "An error occurred",
         variant: "destructive",
       })
+      setLoading(false)
     }
   }
 
@@ -159,11 +163,11 @@ const SignInForm = () => {
                       <FormLabel className="text-sm font-medium text-gray-700">{label}</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Input 
-                            placeholder={placeholder} 
-                            type={type} 
-                            {...field} 
-                            className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                          <Input
+                            placeholder={placeholder}
+                            type={type}
+                            {...field}
+                            className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
                           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                           </span>
@@ -183,8 +187,8 @@ const SignInForm = () => {
                 >
                   Create account
                 </Button>
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors">
-                  Sign In
+                <Button disabled={loading} type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors">
+                  {loading ? 'Signing in...' : 'Sign In'}
                 </Button>
               </div>
             </form>

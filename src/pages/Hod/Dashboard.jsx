@@ -175,7 +175,7 @@ export default function Dashboard() {
   ]
 
   const Sidebar = ({ onTabClick }) => (
-    <div className="h-screen p-4 bg-gray-900 text-white overflow-y-auto">
+    <div className="h-screen fixed left-0 top-0 w-64  p-4 bg-gray-900 text-white overflow-y-auto">
       <div className="flex flex-col h-full">
         <div className="flex items-center space-x-4 mb-6">
           <Avatar>
@@ -266,7 +266,7 @@ export default function Dashboard() {
 
       <div className="hidden lg:block">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={20} minSize={15} maxSize={25}>
+          <ResizablePanel defaultSize={20} minSize={17} maxSize={23} className='h-screen'>
             <Sidebar onTabClick={setActiveTab} />
           </ResizablePanel>
           <ResizableHandle />

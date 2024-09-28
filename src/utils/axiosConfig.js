@@ -26,6 +26,8 @@ axiosInstance.interceptors.request.use(
       const token = localStorage.getItem(`${authUserType}AccessToken`);
       if (token && !isTokenExpired(token)) {
         config.headers['Authorization'] = `Bearer ${token}`;
+      } else if(isTokenExpired(token)) {
+          console.log("hell yeah")
       }
     } else if (['admin', 'hod'].includes(userType)) {
       const token = localStorage.getItem(`${userType}AccessToken`);
