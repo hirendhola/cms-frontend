@@ -256,9 +256,10 @@ export default function Dashboard() {
               <Menu className="h-4 w-4" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[250px] sm:w-[300px] p-0 bg-gray-900">
+          <SheetContent side="left" className="w-[250px] sm:w-[300px] p-0 bg-gray-900"  >
             <Sidebar onTabClick={(tabId) => {
               setActiveTab(tabId)
+              
             }} />
           </SheetContent>
         </Sheet>
@@ -283,3 +284,4 @@ export default function Dashboard() {
     </div>
   )
 }
+
